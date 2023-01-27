@@ -180,7 +180,7 @@ for seconds in range(200):
             fig2 = df['Returns'].iplot(kind='box',
                                        asFigure=True,
                                        colors='Green',
-                                       layout=Layout(title="Stocks Returns", autosize=True,height=450, width=600))
+                                       layout=Layout(title="Stocks Returns", autosize=True))
             st.plotly_chart(fig2)
         with fig_col3:
             # st.markdown("Distribution Of Stock Return")
@@ -188,7 +188,7 @@ for seconds in range(200):
             fig3 = df['20 day Historical Volatility'].iplot(kind='box', asFigure=True,
                                                             layout=Layout(
                                                                 title="Distribution of 20 Day Historical Volatility - "
-                                                                      "q1(-25%) q3(+25%)", autosize=True, height=450, width=600))
+                                                                      "q1(-25%) q3(+25%)", autosize=True))
             st.plotly_chart(fig3)
 
         fig_col22, fig_col21, fig_col23 = st.columns(3)
