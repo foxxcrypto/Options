@@ -234,14 +234,14 @@ for seconds in range(200):
                 #   fig21 = fig21.add_trace(go.Scatter(x=i4, y=p2))
             fig21 = fig21.add_trace(go.Scatter(x=lista1, y=lc1, name='Call'))
             fig21 = fig21.add_trace(go.Scatter(x=lista1, y=lp2, name='Put'))
-            fig22.update_layout(title="Stock price pattern simulated by Monte Carlo method", autosize=False,
+            fig22.update_layout(title="Simulation with MC method", autosize=False,
                                 yaxis_title="Stock price", xaxis_title="Fractional Time N/T(252)",
                                 width=600, height=400, margin=dict(l=40, r=40, b=40, t=40))
             st.plotly_chart(fig22)
         with fig_col21:
             # st.markdown("Distribution Of Stock Return")
             # st.line_chart(df[stock_filter].pct_change())
-            fig21.update_layout(title="Stock Option pricing by Monte Carlo", autosize=False,
+            fig21.update_layout(title="Option pricing by MC method", autosize=False,
                                 yaxis_title="Simulated Price", xaxis_title="Stock price Range",
                                 width=600, height=400, margin=dict(l=40, r=40, b=40, t=40))
             st.plotly_chart(fig21)
@@ -250,7 +250,7 @@ for seconds in range(200):
             plt.xticks(np.linspace(0, 360, 13))
             plt.ylim(0, 100)
             plt.xlim(0, 370)
-            fig23.update_layout(title="Historical Volatility Cone vs. Implied volatility", autosize=False,
+            fig23.update_layout(title="HV Cone vs. IV", autosize=False,
                                 yaxis_title="Volatility (%)", xaxis_title="Days to Expiry (DTE)",
                                 width=600, height=400, margin=dict(l=40, r=40, b=40, t=40))
             fig23 = fig23.add_trace(go.Scatter(x=df2.index, y=df2['max'], name='Max'))
