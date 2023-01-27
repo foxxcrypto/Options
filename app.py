@@ -13,6 +13,7 @@ import calendar
 import datetime as dt
 import cufflinks as cf
 
+
 def get_prices(stocks, s1, e1):
     closing_df = yf.download(stocks, s1, e1)['Adj Close']
     closing_df["Date"] = closing_df.index.date
@@ -150,7 +151,7 @@ while len(lista1) != o:
     lista1.pop()
 
 # dataframe filter
-df['Returns'] = df[stock_filter].pct_change()
+df['Returns'] = df[stock_filter].pct_change() * 100
 df['Log Returns'] = np.log(df[stock_filter]) - np.log(df[stock_filter].shift(1))
 df['20 day Historical Volatility'] = 100 * df['Log Returns'].rolling(window=20).std() * np.sqrt(20)
 df.dropna(inplace=True)
@@ -171,8 +172,14 @@ for seconds in range(200):
 
         fig_col1, fig_col2, fig_col3 = st.columns(3)
         with fig_col1:
-            st.markdown("Daily Price Of " + stock_filter)
-            fig = px.line(df, y=stock_filter, title="Prices", height=250, width=350)
+            #st.markdown("Daily Price Of " + stock_filter)
+            #fig = px.line(df, y=stock_filter, title="Prices", height=400, width=600)
+            fig = df[stock_filter].iplot(kind='line',
+                                       asFigure=True,
+                                       colors='Black',
+                                       layout=Layout(title=stock_filter+" daily chart", yaxis=dict(title="Prices"),
+                                                     autosize=True, height=350, width=400))
+            #fig = px.line(df, y=stock_filter, title="Prices", autosize=True)
             st.plotly_chart(fig)
             # st.line_chart(df[stock_filter])
             # st.write(fig)
@@ -180,15 +187,18 @@ for seconds in range(200):
             fig2 = df['Returns'].iplot(kind='box',
                                        asFigure=True,
                                        colors='Green',
-                                       layout=Layout(title="Stocks Returns", autosize=True, height=250, width=350))
+                                       layout=Layout(title="1-Day Stock Returns", yaxis=dict(title="Volatility (%)"), autosize=True, height=350, width=400))
+                                       #layout = Layout(title="Stocks Returns", autosize=True))
             st.plotly_chart(fig2)
         with fig_col3:
             # st.markdown("Distribution Of Stock Return")
             # st.line_chart(df[stock_filter].pct_change())
             fig3 = df['20 day Historical Volatility'].iplot(kind='box', asFigure=True,
                                                             layout=Layout(
-                                                                title="Distribution of 20 Day Historical Volatility - "
-                                                                      "q1(-25%) q3(+25%)", autosize=True, height=250, width=350))
+                                                                title="20-Day HV Distrib.- "
+                                                                      "q1(-25%) q3(+25%)", yaxis=dict(title="Volatility (%)"),
+                                                                autosize=True, height=350, width=400))
+            #"q1(-25%) q3(+25%)", autosize = True))
             st.plotly_chart(fig3)
 
         fig_col22, fig_col21, fig_col23 = st.columns(3)
@@ -226,14 +236,14 @@ for seconds in range(200):
             fig21 = fig21.add_trace(go.Scatter(x=lista1, y=lp2, name='Put'))
             fig22.update_layout(title="Stock price pattern simulated by Monte Carlo method", autosize=False,
                                 yaxis_title="Stock price", xaxis_title="Fractional Time N/T(252)",
-                                width=350, height=250, margin=dict(l=40, r=40, b=40, t=40))
+                                width=600, height=400, margin=dict(l=40, r=40, b=40, t=40))
             st.plotly_chart(fig22)
         with fig_col21:
             # st.markdown("Distribution Of Stock Return")
             # st.line_chart(df[stock_filter].pct_change())
             fig21.update_layout(title="Stock Option pricing by Monte Carlo", autosize=False,
-                                yaxis_title="Stock Option Price", xaxis_title="Stock price Range",
-                                width=350, height=250, margin=dict(l=40, r=40, b=40, t=40))
+                                yaxis_title="Simulated Price", xaxis_title="Stock price Range",
+                                width=600, height=400, margin=dict(l=40, r=40, b=40, t=40))
             st.plotly_chart(fig21)
         with fig_col23:
             fig23 = go.Figure()
@@ -242,7 +252,7 @@ for seconds in range(200):
             plt.xlim(0, 370)
             fig23.update_layout(title="Historical Volatility Cone vs. Implied volatility", autosize=False,
                                 yaxis_title="Volatility (%)", xaxis_title="Days to Expiry (DTE)",
-                                width=350, height=250, margin=dict(l=40, r=40, b=40, t=40))
+                                width=600, height=400, margin=dict(l=40, r=40, b=40, t=40))
             fig23 = fig23.add_trace(go.Scatter(x=df2.index, y=df2['max'], name='Max'))
             fig23 = fig23.add_trace(go.Scatter(x=df2.index, y=df2['mean'], name='Mean'))
             fig23 = fig23.add_trace(go.Scatter(x=df2.index, y=df1.iloc[-1, :], name='Current'))
