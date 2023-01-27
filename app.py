@@ -11,7 +11,7 @@ import plotly.graph_objects as go
 import statistics as sta
 import calendar
 import datetime as dt
-
+import cufflinks as cf
 
 def get_prices(stocks, s1, e1):
     closing_df = yf.download(stocks, s1, e1)['Adj Close']
