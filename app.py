@@ -42,7 +42,7 @@ st.set_page_config(
 
 # dashboard title
 
-st.title("Real-Time Apollo Option Dashboard")
+st.title("Real-Time Option Dashboard")
 
 # top-level filters
 
